@@ -26,4 +26,11 @@ write_csv(polling_places, "polling_places_local.csv")
 
 head(polling_places)
 ```
+```{r}
+library(tidyverse)
+
+turnout <- read.csv("Turnout_2020G_v1.2.csv")
+
+head(turnout)
+```
  
