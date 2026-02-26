@@ -29,7 +29,7 @@ head(polling_places)
 ```{r}
 library(tidyverse)
 
-turnout <- read.csv("Turnout_2020G_v1.2.csv")
+turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv")
 
 head(turnout)
 ```
