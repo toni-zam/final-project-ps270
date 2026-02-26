@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","polling_places_local.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1546,7 +1546,32 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
 <p>For my final project, I aim to explore data related to voter turnout differences between rural and urban areas. I wish to find out if people living in more urban areas vote more often than people in rural areas, and if it has anything to do with how accessible voting centers are in cities compared to less populated places.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
+<p>My research question will be: “How does the accessibility of voting centers affect voter turnout in rural counties in the U.S, and is this effect different from urban areas?” My hypothesis related to this research question will be: Counties with greater access to voting centers (more polling centers in the area, less travel distance) will have a higher voter turnout than counties with less access to polling centers, and this effect will be stronger in rural counties than urban counties. The behavior explanation for this would be that people are more encouraged to vote when the “cost” in time, travel, and effort is overall less. The explanatory variable would be polling place accessibility, which can be measured as the number of polling centers per capita and travel distance to the nearest polling place. Counties range in geographic size and polling places per capita, which gives the data enough variation. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each county in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban counties. Observations that support my hypothesis would be if counties with more polling places per capita or shorter travel lengths have higher voter turnout than counties with less polling places and more required travel. This effect also must be larger for rural counties than urban counties. My hypothesis would be disproven if the effect size between rural and urban counties was the same, or if polling center accessibility and voter turnout showed no positive relationship.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='va'>polling_places</span>, <span class='st'>"polling_places_local.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 15
+  election_date state county_name jurisdiction jurisdiction_type
+  &lt;date&gt;        &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;            
+1 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
+2 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
+3 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
+4 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
+5 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
+6 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
+# ℹ 10 more variables: precinct_id &lt;chr&gt;, precinct_name &lt;chr&gt;,
+#   polling_place_id &lt;chr&gt;, location_type &lt;chr&gt;, name &lt;chr&gt;,
+#   address &lt;chr&gt;, notes &lt;chr&gt;, source &lt;chr&gt;, source_date &lt;date&gt;,
+#   source_notes &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
