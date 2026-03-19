@@ -74,11 +74,13 @@ top_counties
 
 
 polling_county <- polling_places |>
+  filter(!is.na(county_name)) |>
   group_by(state, county_name) |>
   summarize(polling_places = n(), .groups = "drop")
 
-
-head(polling_county)
+top_counties <- polling_county %>%
+  arrange(desc(polling_places)) %>%
+  slice(1:15)
 
 ggplot(top_counties, aes(x = reorder(county_name, polling_places),
                          y = polling_places)) +
