@@ -34,3 +34,60 @@ turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Tur
 head(turnout)
 ```
  
+```{r}
+library(tidyverse)
+
+polling_places <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv")
+write_csv(polling_places, "polling_places_local.csv")
+
+turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv")
+
+library(pintervals)
+
+data("county_turnout")
+head(county_turnout)
+```
+```{r}
+library(tidyverse)
+
+polling_places <- read_csv("polling_places_local.csv", show_col_types = FALSE)
+
+polling_county <- polling_places |>
+  group_by(state, county_name) |>
+  summarize(polling_places = n(), .groups = "drop")
+
+head(polling_county)
+```
+
+
+
+```{r}
+top_counties <- polling_county |>
+  arrange(desc(polling_places)) |>
+  slice(1:15)
+top_counties
+```
+
+
+
+```{r}
+
+
+polling_county <- polling_places |>
+  group_by(state, county_name) |>
+  summarize(polling_places = n(), .groups = "drop")
+
+
+head(polling_county)
+
+ggplot(top_counties, aes(x = reorder(county_name, polling_places),
+                         y = polling_places)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Counties with the Most Polling Places",
+    x = "County",
+    y = "Number of Polling Places"
+  ) +
+  theme_minimal()
+```
