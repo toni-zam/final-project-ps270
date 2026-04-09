@@ -124,4 +124,4 @@ ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_
   labs(y = "Average Turnout", x = "Year", color = "State Type")
 ```
 The above visualization shows the turnout rates overtime between rural and urban states. This chart disproves my initial hypothesis because it shows a higher turnout in rural states than urban states, meaning that a state being rural does not correspond with having lower voting turnout rates. 
-
+ 
