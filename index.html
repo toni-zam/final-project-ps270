@@ -1738,11 +1738,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout_recent</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>state_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>STATE_ABV</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WY"</span>,<span class='st'>"VT"</span>,<span class='st'>"ND"</span>,<span class='st'>"MT"</span>,<span class='st'>"SD"</span>,<span class='st'>"AK"</span>,<span class='st'>"NH"</span><span class='op'>)</span>, <span class='st'>"Rural"</span>, <span class='st'>"Urban"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
+<span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout_recent</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>VAP_TURNOUT_RATE <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"%"</span>, <span class='st'>""</span>, <span class='va'>VAP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
 <span><span class='va'>turnout_summary</span> <span class='op'>&lt;-</span> <span class='va'>turnout_recent</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>YEAR</span>, <span class='va'>state_type</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>AvgTurnout <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>VAP_TURNOUT_RATE</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>turnout_summary</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>YEAR</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>AvgTurnout</span>, color <span class='op'>=</span> <span class='va'>state_type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>turnout_summary</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>YEAR</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>AvgTurnout</span>, color <span class='op'>=</span> <span class='va'>state_type</span>, group <span class='op'>=</span> <span class='va'>state_type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Average Turnout"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, color <span class='op'>=</span> <span class='st'>"State Type"</span><span class='op'>)</span></span></code></pre>
@@ -1750,7 +1753,36 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="index_files/figure-html5/unnamed-chunk-9-1.png" alt="" width="624" /></p>
 </div>
 <p>The above visualization shows the turnout rates overtime between rural and urban states. This chart disproves my initial hypothesis because it shows a higher turnout in rural states than urban states, meaning that a state being rural does not correspond with having lower voting turnout rates.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>turnout_recent</span><span class='op'>$</span><span class='va'>VAP_TURNOUT_RATE</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>turnout_recent</span><span class='op'>$</span><span class='va'>VAP_TURNOUT_RATE</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>  [1] 61.62 59.01 64.95 60.30 52.46 58.33 71.97 64.45 63.81 63.60
+ [11] 63.35 60.65 50.61 60.86 61.04 58.56 68.84 61.33 61.47 61.07
+ [21] 73.44 63.63 64.87 70.56 74.70 58.49 63.04 70.06 65.13 57.33
+ [31] 71.89 63.84 56.28 55.04 66.94 61.24 65.05 51.46 70.89 67.15
+ [41] 58.67 61.97 62.99 56.34 51.22 63.10 69.85 66.66 67.71 56.11
+ [51] 71.63 62.15 55.51 56.59 57.94 49.77 49.73 48.49 66.47 59.27
+ [61] 59.51 55.29 57.95 53.19 39.05 56.57 57.31 55.35 65.78 55.79
+ [71] 56.99 57.51 71.52 60.19 61.95 62.77 69.96 53.31 59.70 63.34
+ [81] 59.97 49.79 69.79 57.32 50.23 50.32 60.38 60.35 62.11 49.31
+ [91] 63.59 61.53 55.32 54.71 58.20 49.30 43.32 53.87 60.95 59.07
+[101] 50.35 66.61 57.99 54.09 56.21 55.43 46.81 48.06 45.73 65.22
+[111] 55.65 55.41 55.56 52.67 40.05 56.83 53.66 53.70 67.47 54.70
+[121] 53.81 57.63 68.13 60.05 60.33 62.60 71.78 57.25 61.39 62.78
+[131] 57.69 48.44 68.43 53.96 49.88 46.49 60.56 59.33 63.32 46.54
+[141] 59.75 57.62 53.88 54.20 58.44 49.84 41.62 52.05 60.14 61.28
+[151] 59.54 69.91 56.79 57.44 64.48 49.66 50.39 50.14 65.31    NA
+[161] 60.77 55.37 58.07 44.02 59.71 58.01 58.14 67.16 60.20 56.71
+[171] 59.24 70.91 61.29 61.35 66.93 73.47 65.45 65.87 60.23 70.43
+[181] 58.79 55.34 51.90 61.36 62.63 65.93 53.23 63.27 61.87 57.57
+[191] 55.48 64.30 54.87 52.78 66.34 62.32 61.03 50.36 69.59 61.25</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

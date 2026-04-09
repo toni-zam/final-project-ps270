@@ -114,14 +114,22 @@ turnout_recent <- turnout_recent |>
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), "Rural", "Urban"))
 
+turnout_recent <- turnout_recent |>
+  mutate(VAP_TURNOUT_RATE = as.numeric(gsub("%", "", VAP_TURNOUT_RATE)))
+
 turnout_summary <- turnout_recent |>
   group_by(YEAR, state_type) |>
   summarize(AvgTurnout = mean(as.numeric(VAP_TURNOUT_RATE), na.rm = TRUE), .groups = "drop")
 
-ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_type)) +
+ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_type, group = state_type)) +
   geom_line() + geom_point() +
   theme_minimal() +
   labs(y = "Average Turnout", x = "Year", color = "State Type")
 ```
 The above visualization shows the turnout rates overtime between rural and urban states. This chart disproves my initial hypothesis because it shows a higher turnout in rural states than urban states, meaning that a state being rural does not correspond with having lower voting turnout rates. 
  
+```{r}
+class(turnout_recent$VAP_TURNOUT_RATE)
+unique(turnout_recent$VAP_TURNOUT_RATE)
+```
+
