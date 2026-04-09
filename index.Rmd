@@ -14,7 +14,7 @@ output:
 For my final project, I aim to explore data related to voter turnout differences between rural and urban areas. I wish to find out if people living in more urban areas vote more often than people in rural areas, and if it has anything to do with how accessible voting centers are in cities compared to less populated places.
 
 ## Research Question and Hypothesis
-My research question will be: "How does the accessibility of voting centers affect voter turnout in rural counties in the U.S, and is this effect different from urban areas?" My hypothesis related to this research question will be: Counties with greater access to voting centers (more polling centers in the area, less travel distance) will have a higher voter turnout than counties with less access to polling centers, and this effect will be stronger in rural counties than urban counties. The behavior explanation for this would be that people are more encouraged to vote when the "cost" in time, travel, and effort is overall less. The explanatory variable would be polling place accessibility, which can be measured as the number of polling centers per capita and travel distance to the nearest polling place. Counties range in geographic size and polling places per capita, which gives the data enough variation. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each county in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  counties. Observations that support my hypothesis would be if counties with more polling places per capita or shorter travel lengths have higher voter turnout than counties with less polling places and more required travel. This effect also must be larger for rural counties than urban counties. My hypothesis would be disproven if the effect size between rural and urban counties was the same, or if polling center accessibility and voter turnout showed no positive relationship.
+My research question will be: "How does the accessibility of voting centers affect voter turnout in rural states in the U.S, and is this effect different from more densely populated states?" My hypothesis related to this research question will be: States with greater access to voting centers (more cities with more polling centers, less travel distance) will have a higher voter turnout than states with sparse populations and  less access to polling centers, and this effect will be stronger in rural states than urban states. The behavior explanation for this would be that people are more encouraged to vote when the "cost" in time, travel, and effort is overall less. The explanatory variable would be polling place accessibility, which can be measured as the number of polling centers per capita and travel distance to the nearest polling place. States range in geographic size and polling places per capita, which gives the data enough variation. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states Observations that support my hypothesis would be if counties with more polling places per capita or shorter travel lengths have higher voter turnout than counties with less polling places and more required travel. This effect also must be larger for smaller states than larger states. My hypothesis would be disproven if the effect size between small and large states was the same, or if polling center accessibility and voter turnout showed no positive relationship.
  
 
 ```{r}
@@ -78,8 +78,8 @@ polling_county <- polling_places |>
   group_by(state, county_name) |>
   summarize(polling_places = n(), .groups = "drop")
 
-top_counties <- polling_county %>%
-  arrange(desc(polling_places)) %>%
+top_counties <- polling_county |>
+  arrange(desc(polling_places)) |>
   slice(1:15)
 
 ggplot(top_counties, aes(x = reorder(county_name, polling_places),
@@ -93,3 +93,35 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
   ) +
   theme_minimal()
 ```
+
+
+```{r}
+
+library(dplyr)
+
+turnout_recent <- turnout |>
+  filter(YEAR %in% c(2008, 2012, 2016, 2020))
+turnout_recent
+```
+```{r}
+turnout_recent <- turnout_recent |>
+  mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), 
+                            "Rural", "Urban"))
+```
+
+```{r}
+
+turnout_recent <- turnout_recent |>
+  mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), "Rural", "Urban"))
+
+turnout_summary <- turnout_recent |>
+  group_by(YEAR, state_type) |>
+  summarize(AvgTurnout = mean(as.numeric(VAP_TURNOUT_RATE), na.rm = TRUE), .groups = "drop")
+
+ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_type)) +
+  geom_line() + geom_point() +
+  theme_minimal() +
+  labs(y = "Average Turnout", x = "Year", color = "State Type")
+```
+The above visualization shows the turnout rates overtime between rural and urban states. This chart disproves my initial hypothesis because it shows a higher turnout in rural states than urban states, meaning that a state being rural does not correspond with having lower voting turnout rates. 
+
