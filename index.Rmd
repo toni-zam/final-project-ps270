@@ -14,7 +14,10 @@ output:
 For my final project, I aim to explore data related to voter turnout differences between rural and urban areas. I wish to find out if people living in more urban areas vote more often than people in rural areas, and if it has anything to do with how accessible voting centers are in cities compared to less populated places.
 
 ## Research Question and Hypothesis
-My research question will be: "Do rural states have lower voter turnout overall than urban states?" My hypothesis related to this research question will be: rural states, due to less dense populations, have less voter turnout overall than urban states, where populations are more dense However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election.
+My research question will be: "Do rural states have lower voter turnout overall than urban states?" My hypothesis related to this research question will be: rural states, due to less dense populations, have less voter turnout overall than urban states, where populations are more dense.
+
+However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election. One more confounder is the amount of polling places per county in a state. Densely populated/urban states will most likely have more polling places, which likely increases voter turnout.
+
 The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproven if there is no positive relationship between population density and voter turnout.
  
  
@@ -96,7 +99,7 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
   ) +
   theme_minimal()
 ```
-
+The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas.
 
 ```{r State-by-State Election Turnout for Last Four Election Cycles}
 
