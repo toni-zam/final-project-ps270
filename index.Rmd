@@ -14,10 +14,13 @@ output:
 For my final project, I aim to explore data related to voter turnout differences between rural and urban areas. I wish to find out if people living in more urban areas vote more often than people in rural areas, and if it has anything to do with how accessible voting centers are in cities compared to less populated places.
 
 ## Research Question and Hypothesis
-My research question will be: "How does the accessibility of voting centers affect voter turnout in rural states in the U.S, and is this effect different from more densely populated states?" My hypothesis related to this research question will be: States with greater access to voting centers (more cities with more polling centers, less travel distance) will have a higher voter turnout than states with sparse populations and  less access to polling centers, and this effect will be stronger in rural states than urban states. The behavior explanation for this would be that people are more encouraged to vote when the "cost" in time, travel, and effort is overall less. The explanatory variable would be polling place accessibility, which can be measured as the number of polling centers per capita and travel distance to the nearest polling place. States range in geographic size and polling places per capita, which gives the data enough variation. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states Observations that support my hypothesis would be if counties with more polling places per capita or shorter travel lengths have higher voter turnout than counties with less polling places and more required travel. This effect also must be larger for smaller states than larger states. My hypothesis would be disproven if the effect size between small and large states was the same, or if polling center accessibility and voter turnout showed no positive relationship.
+My research question will be: "Do rural states have lower voter turnout overall than urban states?" My hypothesis related to this research question will be: rural states, due to less dense populations, have less voter turnout overall than urban states, where populations are more dense However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election.
+The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproven if there is no positive relationship between population density and voter turnout.
  
-
-```{r}
+ 
+## Data Sources
+This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time. 
+```{r Polling Place Data}
 library(tidyverse)
 
 polling_places <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv")
@@ -26,7 +29,7 @@ write_csv(polling_places, "polling_places_local.csv")
 head(polling_places)
 ```
 
-```{r}
+```{r Election Turnout Data}
 library(tidyverse)
 
 turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv")
@@ -34,7 +37,7 @@ turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Tur
 head(turnout)
 ```
  
-```{r}
+```{r Turnout By County}
 library(tidyverse)
 
 polling_places <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv")
@@ -47,7 +50,7 @@ library(pintervals)
 data("county_turnout")
 head(county_turnout)
 ```
-```{r}
+```{r Polling Places by County}
 library(tidyverse)
 
 polling_places <- read_csv("polling_places_local.csv", show_col_types = FALSE)
@@ -61,16 +64,16 @@ head(polling_county)
 
 
 
-```{r}
+```{r Counties with Top Polling Places}
 top_counties <- polling_county |>
   arrange(desc(polling_places)) |>
   slice(1:15)
 top_counties
 ```
 
+### Visualizations
 
-
-```{r}
+```{r Chart for Counties with Most Polling Places}
 
 
 polling_county <- polling_places |>
@@ -95,7 +98,7 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
 ```
 
 
-```{r}
+```{r State-by-State Election Turnout for Last Four Election Cycles}
 
 library(dplyr)
 
@@ -103,13 +106,13 @@ turnout_recent <- turnout |>
   filter(YEAR %in% c(2008, 2012, 2016, 2020))
 turnout_recent
 ```
-```{r}
+```{r Sort Rural/Urban States}
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), 
                             "Rural", "Urban"))
 ```
 
-```{r}
+```{r Regression}
 
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), "Rural", "Urban"))
@@ -123,11 +126,16 @@ turnout_summary <- turnout_recent |>
 
 ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_type, group = state_type)) +
   geom_line(size = 1, alpha = 0.8) + 
-  geom_point(size = 3, alpha = 0.8) +
+  geom_point(size = 1, alpha = 0.8) +
   scale_color_manual(values = c("Rural" = "#F8766D", "Urban" = "#00BFC4")) +
   theme_minimal() +
   labs(y = "Average Turnout", x = "Year", color = "State Type")
 
+model <- lm(VAP_TURNOUT_RATE ~ state_type, data = turnout_recent)
+summary(model)
+
 ```
-The above visualization shows the turnout rates overtime between rural and urban states. This chart disproves my initial hypothesis because it shows a higher turnout in rural states than urban states, meaning that a state being rural does not correspond with having lower voting turnout rates. 
+The above visualization shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates. 
+The intercept of 63.240 represents the predicted voter turnout for rural states. The coefficient for urban states is -4.862, meaning that urban states have an average voter turnout decrease of 4.9 percentage points compared to rural states. The residuals have a median of about 0, showing small but noticeable variation in predictions. The p-value of 0.000413 shows that the relationship between population density of a state and voter turnout is unlikely to be due to chance.
+ 
  
