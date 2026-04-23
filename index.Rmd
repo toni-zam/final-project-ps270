@@ -81,17 +81,18 @@ For my polling places per county dataset, I used TidyTuesday's 2024 Polling Plac
 
 ### Visualizations
 
-```{r fig.width=10, fig.height=12}
-pop_density |>
+```{r}
+pop_density_top10 <- pop_density |>
+  slice_max(pop_density_2020, n = 10)
+
+pop_density_top10 |>
   ggplot(aes(x = reorder(state, pop_density_2020), y = pop_density_2020)) +
   geom_col(fill = "steelblue") +
   coord_flip() +
-  scale_y_discrete(expand = expansion(add = 0.5)) +
-  labs(title = "State Population Density (2020)",
+  labs(title = "10 States with Highest Population Density (2020)",
        x = "State",
        y = "Population Density") +
-  theme_minimal() +
-  theme(axis.text.y = element_text(size = 7))
+  theme_minimal() 
 ```
 
 The above visualization shows all 50 states, from most densely populated to least densely populated. The least densely populated states are measured as rural, while the most densely populated are measured as urban.
