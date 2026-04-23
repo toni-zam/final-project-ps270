@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Chart for Counties with Most Polling Places-1.png","index_files/figure-html5/Regression-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","polling_places_local.csv","Turnout_2020G_v1.2.csv"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Chart for Counties with Most Polling Places-1.png","index_files/figure-html5/Regression-1.png","index_files/figure-html5/State Population Density: Independent Variable-1.png","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","polling_places_local.csv","state_population_density_2020.csv","Turnout_2020G_v1.2.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1549,9 +1549,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="research-question-and-hypothesis">Research Question and Hypothesis</h2>
 <p>My research question will be: “Do rural states have lower voter turnout overall than urban states?” My hypothesis related to this research question will be: rural states, due to less dense populations, have less voter turnout overall than urban states, where populations are more dense.</p>
 <p>However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election. One more confounder is the amount of polling places per county in a state. Densely populated/urban states will most likely have more polling places, which likely increases voter turnout.</p>
-<p>The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproven if there is no positive relationship between population density and voter turnout.</p>
+<p>The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproved if there is no positive relationship between population density and voter turnout.</p>
+<p>The independent variable would be population density of a state, as population density is what I am using to designate rural and urban states. The dependent variable would be voter turnout, as I aim to prove that rural states (less densely populated) have lower voter turnouts in elections than urban states (more densely populated). This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time.</p>
 <h2 id="data-sources">Data Sources</h2>
-This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time.
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -1677,7 +1677,39 @@ This research design is cross-sectional and observational since it involves anal
 14 CT    &lt;NA&gt;                   3882
 15 WI    Milwaukee              2850</code></pre>
 </div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>pop_density</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"state_population_density_2020.csv"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pop_density</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 2
+  state      pop_density_2020
+  &lt;chr&gt;                 &lt;dbl&gt;
+1 Alabama                99.2
+2 Alaska                  1.3
+3 Arizona                62.9
+4 Arkansas               57.9
+5 California            254. 
+6 Colorado               55.7</code></pre>
+</div>
+<p>For my polling places per county dataset, I used TidyTuesday’s 2024 Polling Places dataset, which is drawn from open election data sources. My election results by state dataset comes from the MIT Election Data and Science Lab. My population density data set comes from the 2020 U.S Census.</p>
 <h3 id="visualizations">Visualizations</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>pop_density</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>pop_density_2020</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>pop_density_2020</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_discrete.html'>scale_y_discrete</a></span><span class='op'>(</span>expand <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/expansion.html'>expansion</a></span><span class='op'>(</span>add <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"State Population Density (2020)"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"State"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Population Density"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" alt="" width="960" /></p>
+</div>
+<p>The above visualization shows all 50 states, from most densely populated to least densely populated. The least densely populated states are measured as rural, while the most densely populated are measured as urban.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>polling_county</span> <span class='op'>&lt;-</span> <span class='va'>polling_places</span> <span class='op'>|&gt;</span></span>
@@ -1785,7 +1817,7 @@ F-statistic:  12.9 on 1 and 203 DF,  p-value: 0.0004129</code></pre>
 </div>
 <p>The above visualization shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.<br />
 The intercept of 63.240 represents the predicted voter turnout for rural states. The coefficient for urban states is -4.862, meaning that urban states have an average voter turnout decrease of 4.9 percentage points compared to rural states. The residuals have a median of about 0, showing small but noticeable variation in predictions. The p-value of 0.000413 shows that the relationship between population density of a state and voter turnout is unlikely to be due to chance.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

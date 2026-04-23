@@ -18,11 +18,11 @@ My research question will be: "Do rural states have lower voter turnout overall 
 
 However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election. One more confounder is the amount of polling places per county in a state. Densely populated/urban states will most likely have more polling places, which likely increases voter turnout.
 
-The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproven if there is no positive relationship between population density and voter turnout.
+The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproved if there is no positive relationship between population density and voter turnout.
  
- 
+The independent variable would be population density of a state, as population density is what I am using to designate rural and urban states. The dependent variable would be voter turnout, as I aim to prove that rural states (less densely populated) have lower voter turnouts in elections than urban states (more densely populated). This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time. 
+
 ## Data Sources
-This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time. 
 ```{r Polling Place Data}
 library(tidyverse)
 
@@ -73,11 +73,30 @@ top_counties <- polling_county |>
   slice(1:15)
 top_counties
 ```
+```{r State Population Density}
+pop_density <- read_csv("state_population_density_2020.csv")
+head(pop_density)
+```
+For my polling places per county dataset, I used TidyTuesday's 2024 Polling Places dataset, which is drawn from open election data sources. My election results by state dataset comes from the MIT Election Data and Science Lab. My population density data set comes from the 2020 U.S Census.
 
 ### Visualizations
 
-```{r Chart for Counties with Most Polling Places}
+```{r fig.width=10, fig.height=12}
+pop_density |>
+  ggplot(aes(x = reorder(state, pop_density_2020), y = pop_density_2020)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  scale_y_discrete(expand = expansion(add = 0.5)) +
+  labs(title = "State Population Density (2020)",
+       x = "State",
+       y = "Population Density") +
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 7))
+```
 
+The above visualization shows all 50 states, from most densely populated to least densely populated. The least densely populated states are measured as rural, while the most densely populated are measured as urban.
+
+```{r Chart for Counties with Most Polling Places}
 
 polling_county <- polling_places |>
   filter(!is.na(county_name)) |>
@@ -102,20 +121,19 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
 The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas.
 
 ```{r State-by-State Election Turnout for Last Four Election Cycles}
-
 library(dplyr)
 
 turnout_recent <- turnout |>
   filter(YEAR %in% c(2008, 2012, 2016, 2020))
 turnout_recent
 ```
-```{r Sort Rural/Urban States}
+```{r Sort Rural/Urban States} 
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), 
                             "Rural", "Urban"))
 ```
 
-```{r Regression}
+```{r Regression} 
 
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), "Rural", "Urban"))
