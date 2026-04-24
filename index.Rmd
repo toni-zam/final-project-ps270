@@ -95,7 +95,7 @@ pop_density_top10 |>
   theme_minimal() 
 ```
 
-This visualization shows all 50 states, from most densely populated to least densely populated. The least densely populated states are measured as rural, while the most densely populated are measured as urban.
+This visualization shows the ten most densely populated states of the United States. The least densely populated states are measured as rural, while these most densely populated states are measured as urban.
 
 ```{r Chart for Counties with Most Polling Places}
 
