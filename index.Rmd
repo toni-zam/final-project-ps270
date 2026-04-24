@@ -1,5 +1,5 @@
 ---
-title: "PS270 Final Project"
+title: "PS270 Final Project: Voter Turnout Differences between Urban and Rural States"
 author: Antonietta Zamarra
 description: "My Final Project"
 output:
@@ -95,7 +95,7 @@ pop_density_top10 |>
   theme_minimal() 
 ```
 
-The above visualization shows all 50 states, from most densely populated to least densely populated. The least densely populated states are measured as rural, while the most densely populated are measured as urban.
+This visualization shows all 50 states, from most densely populated to least densely populated. The least densely populated states are measured as rural, while the most densely populated are measured as urban.
 
 ```{r Chart for Counties with Most Polling Places}
 
@@ -157,7 +157,7 @@ model <- lm(VAP_TURNOUT_RATE ~ state_type, data = turnout_recent)
 summary(model)
 
 ```
-The above visualization shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.  
+The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.  
 The intercept of 63.240 represents the predicted voter turnout for rural states. The coefficient for urban states is -4.862, meaning that urban states have an average voter turnout decrease of 4.9 percentage points compared to rural states. The residuals have a median of about 0, showing small but noticeable variation in predictions. The p-value of 0.000413 shows that the relationship between population density of a state and voter turnout is unlikely to be due to chance.
  
  
