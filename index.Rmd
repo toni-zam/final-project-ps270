@@ -170,6 +170,7 @@ ggplot(density_turnout, aes(x = pop_density_2020, y = VEP_TURNOUT_RATE)) +
 This scatterplot displays the slight positive trend between population density and voter turnout across states in 2020. The trend suggests more densely populated states do tend to have a slightly higher turnout than less densely populated states, though there are multiple outliers that are further away from the line.
 
 ```{r Regression} 
+library(modelsummary)
 
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), "Rural", "Urban"))
@@ -189,7 +190,7 @@ ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_
   labs(y = "Average Turnout", x = "Year", color = "State Type")
 
 model <- lm(VEP_TURNOUT_RATE ~ pop_density_2020, data = density_turnout)
-summary(model)
+modelsummary(model)
 
 ```
 The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.  
