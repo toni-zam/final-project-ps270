@@ -115,7 +115,7 @@ turnout_2020 |>
   theme_minimal()
 ```
 This bar chart shows voter turnout rates for the 2020 election in all 50 states. There is clear variation across states in voter turnout, as some states had a turnout rate above 75%, while some rates fall under 60%.
-
+ 
 ```{r Chart for Counties with Most Polling Places}
 
 polling_county <- polling_places |>
