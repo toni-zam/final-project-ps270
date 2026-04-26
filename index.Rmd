@@ -13,14 +13,12 @@ output:
 
 For my final project, I aim to explore data related to voter turnout differences between rural and urban areas. I wish to find out if people living in more urban areas vote more often than people in rural areas, and if it has anything to do with how accessible voting centers are in cities compared to less populated places.
 
-## Research Question and Hypothesis
+## Introduction
 My research question will be: "Do rural states have lower voter turnout overall than urban states?" My hypothesis related to this research question will be: rural states, due to less dense populations, have less voter turnout overall than urban states, where populations are more dense.
 
 However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election. One more confounder is the amount of polling places per county in a state. Densely populated/urban states will most likely have more polling places, which likely increases voter turnout.
 
-The explanatory variable would be population density of a state, as states with the lowest population density will be designated as rural states. The outcome variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproved if there is no positive relationship between population density and voter turnout.
- 
-The independent variable would be population density of a state, as population density is what I am using to designate rural and urban states. The dependent variable would be voter turnout, as I aim to prove that rural states (less densely populated) have lower voter turnouts in elections than urban states (more densely populated). This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time. 
+
 
 ## Data Sources
 ```{r Polling Place Data}
@@ -78,8 +76,10 @@ pop_density <- read_csv("state_population_density_2020.csv")
 head(pop_density)
 ```
 For my polling places per county dataset, I used TidyTuesday's 2024 Polling Places dataset, which is drawn from open election data sources. My election results by state dataset comes from the MIT Election Data and Science Lab. My population density data set comes from the 2020 U.S Census.
+The independent variable would be population density of a state, as states with the lowest population density will be designated as rural states. The dependent  variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban  states. I aim to prove that rural states (less densely populated) have lower voter turnouts in elections than urban states (more densely populated). This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproved if there is no positive relationship between population density and voter turnout.
 
-### Visualizations
+
+### Variables
 
 ```{r}
 pop_density_top10 <- pop_density |>
@@ -94,8 +94,27 @@ pop_density_top10 |>
        y = "Population Density") +
   theme_minimal() 
 ```
-
+ 
 This visualization shows the ten most densely populated states of the United States. The least densely populated states are measured as rural, while these most densely populated states are measured as urban.
+
+```{r Turnout (Dependent Variable) Chart, fig.height = 8}
+
+turnout_2020 <- turnout |>
+  filter(YEAR == 2020) |>
+  filter(STATE != "United States") |>
+  mutate(VEP_TURNOUT_RATE = as.numeric(gsub("%", "", VEP_TURNOUT_RATE)))
+
+turnout_2020 |>
+  filter(!is.na(VEP_TURNOUT_RATE)) |>
+  ggplot(aes(x = reorder(STATE_ABV, VEP_TURNOUT_RATE), y = VEP_TURNOUT_RATE)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Voter Turnout by State (2020)",
+       x = "State (Abbreviation)",
+       y = "Voter Turnout (%)") +
+  theme_minimal()
+```
+This bar chart shows voter turnout rates for the 2020 election in all 50 states. There is clear variation across states in voter turnout, as some states had a turnout rate above 75%, while some rates fall under 60%.
 
 ```{r Chart for Counties with Most Polling Places}
 
@@ -134,6 +153,22 @@ turnout_recent <- turnout_recent |>
                             "Rural", "Urban"))
 ```
 
+## Results
+```{r}
+
+density_turnout <- pop_density |>
+  inner_join(turnout_2020, by = c("state" = "STATE"))
+
+ggplot(density_turnout, aes(x = pop_density_2020, y = VEP_TURNOUT_RATE)) +
+  geom_point(color = "steelblue") +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(title = "Population Density vs. Voter Turnout (2020)",
+       x = "Population Density",
+       y = "Voter Turnout (%)") +
+  theme_minimal()
+```
+This scatterplot displays the slight positive trend between population density and voter turnout across states in 2020. The trend suggests more densely populated states do tend to have a slightly higher turnout than less densely populated states, though there are multiple outliers that are further away from the line.
+
 ```{r Regression} 
 
 turnout_recent <- turnout_recent |>
@@ -153,11 +188,14 @@ ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_
   theme_minimal() +
   labs(y = "Average Turnout", x = "Year", color = "State Type")
 
-model <- lm(VAP_TURNOUT_RATE ~ state_type, data = turnout_recent)
+model <- lm(VEP_TURNOUT_RATE ~ pop_density_2020, data = density_turnout)
 summary(model)
 
 ```
 The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.  
-The intercept of 63.240 represents the predicted voter turnout for rural states. The coefficient for urban states is -4.862, meaning that urban states have an average voter turnout decrease of 4.9 percentage points compared to rural states. The residuals have a median of about 0, showing small but noticeable variation in predictions. The p-value of 0.000413 shows that the relationship between population density of a state and voter turnout is unlikely to be due to chance.
- 
- 
+The intercept of 66.30 represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of  0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.
+
+## Conclusion
+The scatterplot displayed a slight positive correlation between population density and voter turnout, suggesting that states with higher population density trend towards higher voter turnout. However, the regression analysis showed an extremely small coefficient and a p-value of 0.385, indicating that the relationship between variables was not statistically significant. This means that the relationship between a state's voter turnout and population density could possibly be due to chance.
+
+These results do not support my hypothesis, because they do not prove that more densely populated states have higher voter turnout than states with lower population density. Some confounders to my hypothesis were campaign activity differences throughout states, socioeconomic factors such as differing education rates, and differences in polling place accessibility among states with higher or lower population density. Another limitation was that only data from the 2020 election was utilized. I would improve this research in the future by using data from multiple election years, or running a multiple regression that controls for confounders, such as education rates and polling place accessibility.
