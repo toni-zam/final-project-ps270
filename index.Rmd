@@ -113,7 +113,7 @@ turnout_2020 |>
 ```
 This bar chart shows voter turnout rates for the 2020 election in all 50 states. There is clear variation across states in voter turnout, as some states had a turnout rate above 75%, while some rates fall under 60%.
  
-```{r Chart for Counties with Most Polling Places, echo=FALSE}
+```{r Chart for Counties with Most Polling Places Confounder, echo=FALSE}
 
 polling_county <- polling_places |>
   filter(!is.na(county_name)) |>
@@ -135,7 +135,7 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
   ) +
   theme_minimal()
 ```
-The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas. This shows that polling places in each state could be a confounder, since one can draw the connection that more urban and suburban counties having more polling place accessibility can motivate more people to vote. Less availability of polling places in a state will be discouraging for people who wish to vote, due to traveling distances and costs.
+The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas. This shows that polling places in each state could be a confounder, since more urban and suburban counties having more polling place accessibility can motivate more people to vote. Less availability of polling places in a state will be discouraging for people who wish to vote, due to traveling distances and costs.
 
 ```{r State-by-State Election Turnout for Last Four Election Cycles, echo=FALSE}
 library(dplyr)
