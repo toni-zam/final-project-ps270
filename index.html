@@ -1592,37 +1592,25 @@ The independent variable would be population density of a state, as states with 
 <p>This scatterplot displays the slight positive trend between population density and voter turnout across states in 2020. The trend suggests more densely populated states do tend to have a slightly higher turnout than less densely populated states, though there are multiple outliers that are further away from the line.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/Regression%20and%20Line%20Plot-1.png" alt="" width="624" />
-+——————+———-+
++———————————–+———+
 | | (1) |
-+==================+==========+
-| (Intercept) | 66.299 |
-+——————+———-+
-| | (1.070) |
-+——————+———-+
-| pop_density_2020 | 0.003 |
-+——————+———-+
++===================================+=========+
+| Population Density (per sq. mile) | 0.003 |
++———————————–+———+
 | | (0.003) |
-+——————+———-+
++———————————–+———+
 | Num.Obs. | 48 |
-+——————+———-+
++———————————–+———+
 | R2 | 0.016 |
-+——————+———-+
++———————————–+———+
 | R2 Adj. | -0.005 |
-+——————+———-+
-| AIC | 310.8 |
-+——————+———-+
-| BIC | 316.4 |
-+——————+———-+
-| Log.Lik. | -152.385 |
-+——————+———-+
-| RMSE | 5.79 |
-+——————+———-+</p>
++———————————–+———+</p>
 </div>
 <p>The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.<br />
 The intercept of 66.30 represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of 0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>The scatterplot displayed a slight positive correlation between population density and voter turnout, suggesting that states with higher population density trend towards higher voter turnout. However, the regression analysis showed an extremely small coefficient and a p-value of 0.385, indicating that the relationship between variables was not statistically significant. This means that the relationship between a state’s voter turnout and population density could possibly be due to chance.</p>
-<p>These results do not support my hypothesis, because they do not prove that more densely populated states have higher voter turnout than states with lower population density. Some confounders to my hypothesis were campaign activity differences throughout states, socioeconomic factors such as differing education rates, and differences in polling place accessibility among states with higher or lower population density. Another limitation was that only data from the 2020 election was utilized. I would improve this research in the future by using data from multiple election years, or running a multiple regression that controls for confounders, such as education rates and polling place accessibility.</p>
+<p>These results do not support my hypothesis, because they do not prove that more densely populated states have higher voter turnout than states with lower population density. Some confounders to my hypothesis were campaign activity differences throughout states, socioeconomic factors such as differing education rates, and differences in polling place accessibility among states with higher or lower population density. One limitation was that 2 states were dropped from my regression analysis, most likely due to a difference in names between my density and turnout datasets that I joined for two states. In addition, I was limited by only studying data from the 2020 election. I would improve this research in the future by studying data from multiple election years, or running a multiple regression that controls for confounders, such as education rates and polling place accessibility.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -1746,8 +1734,17 @@ The intercept of 66.30 represents a predicted baseline voter turnout of 66% when
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Average Turnout"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, color <span class='op'>=</span> <span class='st'>"State Type"</span><span class='op'>)</span></span>
 <span></span>
+<span></span>
 <span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span> <span class='op'>~</span> <span class='va'>pop_density_2020</span>, data <span class='op'>=</span> <span class='va'>density_turnout</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://modelsummary.com/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>var_labels</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span>  <span class='st'>"pop_density_2020"</span> <span class='op'>=</span> <span class='st'>"Population Density (per sq. mile)"</span></span>
+<span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://modelsummary.com/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span>,</span>
+<span>  coef_map <span class='op'>=</span> <span class='va'>var_labels</span>,</span>
+<span>  gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
