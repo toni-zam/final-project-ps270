@@ -21,7 +21,7 @@ However, a possible confounder could be socioeconomic conditions in that state s
 
 
 ## Data Sources
-```{r Polling Place Data}
+```{r Polling Place Data, include= FALSE}
 library(tidyverse)
 
 polling_places <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv")
@@ -30,7 +30,7 @@ write_csv(polling_places, "polling_places_local.csv")
 head(polling_places)
 ```
 
-```{r Election Turnout Data}
+```{r Election Turnout Data, include= FALSE}
 library(tidyverse)
 
 turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv")
@@ -38,7 +38,7 @@ turnout <- read_csv("https://election.lab.ufl.edu/data-downloads/turnoutdata/Tur
 head(turnout)
 ```
  
-```{r Turnout By County}
+```{r Turnout By County, include= FALSE}
 library(tidyverse)
 
 polling_places <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv")
@@ -51,7 +51,8 @@ library(pintervals)
 data("county_turnout")
 head(county_turnout)
 ```
-```{r Polling Places by County}
+
+```{r Polling Places by County, include= FALSE}
 library(tidyverse)
 
 polling_places <- read_csv("polling_places_local.csv", show_col_types = FALSE)
@@ -65,13 +66,13 @@ head(polling_county)
 
 
 
-```{r Counties with Top Polling Places}
+```{r Counties with Most Polling Places, include = FALSE}
 top_counties <- polling_county |>
   arrange(desc(polling_places)) |>
   slice(1:15)
 top_counties
 ```
-```{r State Population Density}
+```{r State Population Density, include= FALSE}
 pop_density <- read_csv("state_population_density_2020.csv")
 head(pop_density)
 ```
@@ -81,7 +82,7 @@ The independent variable would be population density of a state, as states with 
 
 ### Variables
 
-```{r}
+```{r State Density Chart, echo= FALSE}
 pop_density_top10 <- pop_density |>
   slice_max(pop_density_2020, n = 10)
 
@@ -97,7 +98,7 @@ pop_density_top10 |>
  
 This visualization shows the ten most densely populated states of the United States. The least densely populated states are measured as rural, while these most densely populated states are measured as urban.
 
-```{r Turnout (Dependent Variable) Chart, fig.height = 8}
+```{r Turnout (Dependent Variable) Chart, fig.height = 8, echo= FALSE}
 
 turnout_2020 <- turnout |>
   filter(YEAR == 2020) |>
@@ -116,7 +117,7 @@ turnout_2020 |>
 ```
 This bar chart shows voter turnout rates for the 2020 election in all 50 states. There is clear variation across states in voter turnout, as some states had a turnout rate above 75%, while some rates fall under 60%.
  
-```{r Chart for Counties with Most Polling Places}
+```{r Chart for Counties with Most Polling Places, echo=FALSE}
 
 polling_county <- polling_places |>
   filter(!is.na(county_name)) |>
@@ -140,21 +141,21 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
 ```
 The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas.
 
-```{r State-by-State Election Turnout for Last Four Election Cycles}
+```{r State-by-State Election Turnout for Last Four Election Cycles, echo=FALSE}
 library(dplyr)
 
 turnout_recent <- turnout |>
   filter(YEAR %in% c(2008, 2012, 2016, 2020))
 turnout_recent
 ```
-```{r Sort Rural/Urban States} 
+```{r Sort Rural/Urban States, include=FALSE} 
 turnout_recent <- turnout_recent |>
   mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), 
                             "Rural", "Urban"))
 ```
 
 ## Results
-```{r}
+```{r Variable Scatterplot, echo= FALSE}
 
 density_turnout <- pop_density |>
   inner_join(turnout_2020, by = c("state" = "STATE"))
@@ -169,7 +170,7 @@ ggplot(density_turnout, aes(x = pop_density_2020, y = VEP_TURNOUT_RATE)) +
 ```
 This scatterplot displays the slight positive trend between population density and voter turnout across states in 2020. The trend suggests more densely populated states do tend to have a slightly higher turnout than less densely populated states, though there are multiple outliers that are further away from the line.
 
-```{r Regression} 
+```{r Regression and Line Plot, echo= FALSE} 
 library(modelsummary)
 
 turnout_recent <- turnout_recent |>
@@ -200,3 +201,7 @@ The intercept of 66.30 represents a predicted baseline voter turnout of 66% when
 The scatterplot displayed a slight positive correlation between population density and voter turnout, suggesting that states with higher population density trend towards higher voter turnout. However, the regression analysis showed an extremely small coefficient and a p-value of 0.385, indicating that the relationship between variables was not statistically significant. This means that the relationship between a state's voter turnout and population density could possibly be due to chance.
 
 These results do not support my hypothesis, because they do not prove that more densely populated states have higher voter turnout than states with lower population density. Some confounders to my hypothesis were campaign activity differences throughout states, socioeconomic factors such as differing education rates, and differences in polling place accessibility among states with higher or lower population density. Another limitation was that only data from the 2020 election was utilized. I would improve this research in the future by using data from multiple election years, or running a multiple regression that controls for confounders, such as education rates and polling place accessibility.
+
+```{r print-code, ref.label=knitr::all_labels(), echo = TRUE, eval=FALSE}
+```
+

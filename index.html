@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Chart for Counties with Most Polling Places-1.png","index_files/figure-html5/Regression-1.png","index_files/figure-html5/State Population Density: Independent Variable-1.png","index_files/figure-html5/Turnout (Dependent Variable) Chart-1.png","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","polling_places_local.csv","state_population_density_2020.csv","Turnout_2020G_v1.2.csv"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/Chart for Counties with Most Polling Places-1.png","index_files/figure-html5/Regression and Line Plot-1.png","index_files/figure-html5/Regression-1.png","index_files/figure-html5/State Density Chart-1.png","index_files/figure-html5/State Population Density: Independent Variable-1.png","index_files/figure-html5/Turnout (Dependent Variable) Chart-1.png","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-6-1.png","index_files/figure-html5/unnamed-chunk-9-1.png","index_files/figure-html5/Variable Scatterplot-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","polling_places_local.csv","state_population_density_2020.csv","Turnout_2020G_v1.2.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1550,219 +1550,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>My research question will be: “Do rural states have lower voter turnout overall than urban states?” My hypothesis related to this research question will be: rural states, due to less dense populations, have less voter turnout overall than urban states, where populations are more dense.</p>
 <p>However, a possible confounder could be socioeconomic conditions in that state such as education levels, which may differ in urban and rural states and affect voter turnout. Another confounder may be politician campaign activity, as politicians may concentrate more campaign efforts in urban states due to larger populations and more electoral votes. People also feel more encouraged to vote when they are mobilized through campaign efforts. The behavior explanation for this would be that lower levels of campaign activity in more rural states results in reduced voter mobilization, leading to less political awareness and less perceived importance of an election. Individuals will therefore be less likely to participate in an election. One more confounder is the amount of polling places per county in a state. Densely populated/urban states will most likely have more polling places, which likely increases voter turnout.</p>
 <h2 id="data-sources">Data Sources</h2>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv"</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='va'>polling_places</span>, <span class='st'>"polling_places_local.csv"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code># A tibble: 6 × 15
-  election_date state county_name jurisdiction jurisdiction_type
-  &lt;date&gt;        &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;            
-1 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
-2 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
-3 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
-4 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
-5 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
-6 2020-11-03    AL    AUTAUGA     AUTAUGA      county           
-# ℹ 10 more variables: precinct_id &lt;chr&gt;, precinct_name &lt;chr&gt;,
-#   polling_place_id &lt;chr&gt;, location_type &lt;chr&gt;, name &lt;chr&gt;,
-#   address &lt;chr&gt;, notes &lt;chr&gt;, source &lt;chr&gt;, source_date &lt;date&gt;,
-#   source_notes &lt;chr&gt;</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>turnout</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>turnout</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code># A tibble: 6 × 15
-   YEAR STATE   STATE_ABV TOTAL_BALLOTS_COUNTED VOTE_FOR_HIGHEST_OFF…¹
-  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;                 
-1  2022 United… &lt;NA&gt;                  112030874 &lt;NA&gt;                  
-2  2022 Alabama AL                      1424087 https://www.eac.gov/s…
-3  2022 Alaska  AK                       267047 https://www.elections…
-4  2022 Arizona AZ                      2592313 https://azsos.gov/ele…
-5  2022 Arkans… AR                       914227 https://results.enr.c…
-6  2022 Califo… CA                     11146610 https://electionresul…
-# ℹ abbreviated name: ¹​VOTE_FOR_HIGHEST_OFFICE
-# ℹ 10 more variables: VAP &lt;dbl&gt;, NONCITIZEN_PCT &lt;chr&gt;,
-#   INELIGIBLE_PRISON &lt;dbl&gt;, INELIGIBLE_PROBATION &lt;dbl&gt;,
-#   INELIGIBLE_PAROLE &lt;dbl&gt;, INELIGIBLE_FELONS_TOTAL &lt;dbl&gt;,
-#   ELIGIBLE_OVERSEAS &lt;dbl&gt;, VEP &lt;dbl&gt;, VEP_TURNOUT_RATE &lt;chr&gt;,
-#   VAP_TURNOUT_RATE &lt;chr&gt;</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv"</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='va'>polling_places</span>, <span class='st'>"polling_places_local.csv"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>turnout</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>pintervals</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"county_turnout"</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>county_turnout</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code># A tibble: 6 × 22
-  state   county   fips turnout total_population nonwhite_pct
-  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-1 Alabama Autauga  1001   0.614            55049         24.3
-2 Alabama Baldwin  1003   0.627           199510         16.8
-3 Alabama Barbour  1005   0.514            26614         54.1
-4 Alabama Bibb     1007   0.501            22572         25.2
-5 Alabama Blount   1009   0.603            57704         12.3
-6 Alabama Bullock  1011   0.575            10552         78.3
-# ℹ 16 more variables: foreignborn_pct &lt;dbl&gt;, female_pct &lt;dbl&gt;,
-#   age29andunder_pct &lt;dbl&gt;, age65andolder_pct &lt;dbl&gt;,
-#   median_hh_inc &lt;dbl&gt;, clf_unemploy_pct &lt;dbl&gt;,
-#   lesscollege_pct &lt;dbl&gt;, lesshs_pct &lt;dbl&gt;, rural_pct &lt;dbl&gt;,
-#   ruralurban_cc &lt;dbl&gt;, predicted_turnout &lt;dbl&gt;, division &lt;chr&gt;,
-#   region &lt;chr&gt;, geo_group &lt;chr&gt;, longitude &lt;dbl&gt;, latitude &lt;dbl&gt;</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"polling_places_local.csv"</span>, show_col_types <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>polling_county</span> <span class='op'>&lt;-</span> <span class='va'>polling_places</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>county_name</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>polling_places <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>polling_county</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code># A tibble: 6 × 3
-  state county_name polling_places
-  &lt;chr&gt; &lt;chr&gt;                &lt;int&gt;
-1 AK    &lt;NA&gt;                  2025
-2 AL    AUTAUGA                 19
-3 AL    BALDWIN                 50
-4 AL    BARBOUR                 16
-5 AL    BIBB                     8
-6 AL    BLOUNT                  25</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>top_counties</span> <span class='op'>&lt;-</span> <span class='va'>polling_county</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>)</span></span>
-<span><span class='va'>top_counties</span></span></code></pre>
-</div>
-<pre><code># A tibble: 15 × 3
-   state county_name  polling_places
-   &lt;chr&gt; &lt;chr&gt;                 &lt;int&gt;
- 1 NJ    &lt;NA&gt;                  25290
- 2 IL    Cook                  20071
- 3 PA    &lt;NA&gt;                  18112
- 4 MN    &lt;NA&gt;                  15424
- 5 KY    &lt;NA&gt;                  14796
- 6 AR    &lt;NA&gt;                  14488
- 7 MI    &lt;NA&gt;                   9677
- 8 PA    PHILADELPHIA           5081
- 9 OH    CUYAHOGA               5035
-10 VA    &lt;NA&gt;                   4850
-11 IL    DuPage                 4233
-12 OH    FRANKLIN               4191
-13 PA    ALLEGHENY              3976
-14 CT    &lt;NA&gt;                   3882
-15 WI    Milwaukee              2850</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>pop_density</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"state_population_density_2020.csv"</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pop_density</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code># A tibble: 6 × 2
-  state      pop_density_2020
-  &lt;chr&gt;                 &lt;dbl&gt;
-1 Alabama                99.2
-2 Alaska                  1.3
-3 Arizona                62.9
-4 Arkansas               57.9
-5 California            254. 
-6 Colorado               55.7</code></pre>
-</div>
 <p>For my polling places per county dataset, I used TidyTuesday’s 2024 Polling Places dataset, which is drawn from open election data sources. My election results by state dataset comes from the MIT Election Data and Science Lab. My population density data set comes from the 2020 U.S Census.
 The independent variable would be population density of a state, as states with the lowest population density will be designated as rural states. The dependent variable would be voter turnout, and this can be measured as the percentage of registered voters who cast a ballot in each state in a given election year. Official election data sources make their turnout rates available, allowing comparison among rural/urban states. I aim to prove that rural states (less densely populated) have lower voter turnouts in elections than urban states (more densely populated). This research design is cross-sectional and observational since it involves analysis of existing data about polling places and election turnout at a specific time. Observations that support my hypothesis would be if urban and more densely populated states have higher turnout over the last 4 election cycles than rural states. My hypothesis would be disproved if there is no positive relationship between population density and voter turnout.</p>
 <h3 id="variables">Variables</h3>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>pop_density_top10</span> <span class='op'>&lt;-</span> <span class='va'>pop_density</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_max</a></span><span class='op'>(</span><span class='va'>pop_density_2020</span>, n <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>pop_density_top10</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>pop_density_2020</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>pop_density_2020</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"10 States with Highest Population Density (2020)"</span>,</span>
-<span>       x <span class='op'>=</span> <span class='st'>"State"</span>,</span>
-<span>       y <span class='op'>=</span> <span class='st'>"Population Density"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> </span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" alt="" width="624" /></p>
+<p><img src="index_files/figure-html5/State%20Density%20Chart-1.png" alt="" width="624" /></p>
 </div>
 <p>This visualization shows the ten most densely populated states of the United States. The least densely populated states are measured as rural, while these most densely populated states are measured as urban.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>turnout_2020</span> <span class='op'>&lt;-</span> <span class='va'>turnout</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>YEAR</span> <span class='op'>==</span> <span class='fl'>2020</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>STATE</span> <span class='op'>!=</span> <span class='st'>"United States"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>VEP_TURNOUT_RATE <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"%"</span>, <span class='st'>""</span>, <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>turnout_2020</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>STATE_ABV</span>, <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Voter Turnout by State (2020)"</span>,</span>
-<span>       x <span class='op'>=</span> <span class='st'>"State (Abbreviation)"</span>,</span>
-<span>       y <span class='op'>=</span> <span class='st'>"Voter Turnout (%)"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
-</div>
 <p><img src="index_files/figure-html5/Turnout%20(Dependent%20Variable)%20Chart-1.png" alt="" width="624" /></p>
 </div>
 <p>This bar chart shows voter turnout rates for the 2020 election in all 50 states. There is clear variation across states in voter turnout, as some states had a turnout rate above 75%, while some rates fall under 60%.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>polling_county</span> <span class='op'>&lt;-</span> <span class='va'>polling_places</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>county_name</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>county_name</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>polling_places <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>top_counties</span> <span class='op'>&lt;-</span> <span class='va'>polling_county</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>top_counties</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>county_name</span>, <span class='va'>polling_places</span><span class='op'>)</span>,</span>
-<span>                         y <span class='op'>=</span> <span class='va'>polling_places</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
-<span>    title <span class='op'>=</span> <span class='st'>"Counties with the Most Polling Places"</span>,</span>
-<span>    x <span class='op'>=</span> <span class='st'>"County"</span>,</span>
-<span>    y <span class='op'>=</span> <span class='st'>"Number of Polling Places"</span></span>
-<span>  <span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
-</div>
 <p><img src="index_files/figure-html5/Chart%20for%20Counties%20with%20Most%20Polling%20Places-1.png" alt="" width="624" /></p>
 </div>
 <p>The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>YEAR</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2008</span>, <span class='fl'>2012</span>, <span class='fl'>2016</span>, <span class='fl'>2020</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='va'>turnout_recent</span></span></code></pre>
-</div>
 <pre><code># A tibble: 208 × 15
     YEAR STATE  STATE_ABV TOTAL_BALLOTS_COUNTED VOTE_FOR_HIGHEST_OFF…¹
    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;                 
@@ -1784,17 +1587,139 @@ The independent variable would be population density of a state, as states with 
 #   ELIGIBLE_OVERSEAS &lt;dbl&gt;, VEP &lt;dbl&gt;, VEP_TURNOUT_RATE &lt;chr&gt;,
 #   VAP_TURNOUT_RATE &lt;chr&gt;</code></pre>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout_recent</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>state_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>STATE_ABV</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WY"</span>,<span class='st'>"VT"</span>,<span class='st'>"ND"</span>,<span class='st'>"MT"</span>,<span class='st'>"SD"</span>,<span class='st'>"AK"</span>,<span class='st'>"NH"</span><span class='op'>)</span>, </span>
-<span>                            <span class='st'>"Rural"</span>, <span class='st'>"Urban"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
 <h2 id="results">Results</h2>
 <div class="layout-chunk" data-layout="l-body">
+<p><img src="index_files/figure-html5/Variable%20Scatterplot-1.png" alt="" width="624" /></p>
+</div>
+<p>This scatterplot displays the slight positive trend between population density and voter turnout across states in 2020. The trend suggests more densely populated states do tend to have a slightly higher turnout than less densely populated states, though there are multiple outliers that are further away from the line.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="index_files/figure-html5/Regression%20and%20Line%20Plot-1.png" alt="" width="624" />
++——————+———-+
+| | (1) |
++==================+==========+
+| (Intercept) | 66.299 |
++——————+———-+
+| | (1.070) |
++——————+———-+
+| pop_density_2020 | 0.003 |
++——————+———-+
+| | (0.003) |
++——————+———-+
+| Num.Obs. | 48 |
++——————+———-+
+| R2 | 0.016 |
++——————+———-+
+| R2 Adj. | -0.005 |
++——————+———-+
+| AIC | 310.8 |
++——————+———-+
+| BIC | 316.4 |
++——————+———-+
+| Log.Lik. | -152.385 |
++——————+———-+
+| RMSE | 5.79 |
++——————+———-+</p>
+</div>
+<p>The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.<br />
+The intercept of 66.30 represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of 0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The scatterplot displayed a slight positive correlation between population density and voter turnout, suggesting that states with higher population density trend towards higher voter turnout. However, the regression analysis showed an extremely small coefficient and a p-value of 0.385, indicating that the relationship between variables was not statistically significant. This means that the relationship between a state’s voter turnout and population density could possibly be due to chance.</p>
+<p>These results do not support my hypothesis, because they do not prove that more densely populated states have higher voter turnout than states with lower population density. Some confounders to my hypothesis were campaign activity differences throughout states, socioeconomic factors such as differing education rates, and differences in polling place accessibility among states with higher or lower population density. Another limitation was that only data from the 2020 election was utilized. I would improve this research in the future by using data from multiple election years, or running a multiple regression that controls for confounders, such as education rates and polling place accessibility.</p>
+<div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>density_turnout</span> <span class='op'>&lt;-</span> <span class='va'>pop_density</span> <span class='op'>|&gt;</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='va'>polling_places</span>, <span class='st'>"polling_places_local.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>turnout</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>turnout</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-16/polling_places.csv"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://readr.tidyverse.org/reference/write_delim.html'>write_csv</a></span><span class='op'>(</span><span class='va'>polling_places</span>, <span class='st'>"polling_places_local.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>turnout</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"https://election.lab.ufl.edu/data-downloads/turnoutdata/Turnout_1980_2022_v1.2.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>pintervals</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"county_turnout"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>county_turnout</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>polling_places</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"polling_places_local.csv"</span>, show_col_types <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>polling_county</span> <span class='op'>&lt;-</span> <span class='va'>polling_places</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>county_name</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>polling_places <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>polling_county</span><span class='op'>)</span></span>
+<span><span class='va'>top_counties</span> <span class='op'>&lt;-</span> <span class='va'>polling_county</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>)</span></span>
+<span><span class='va'>top_counties</span></span>
+<span><span class='va'>pop_density</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"state_population_density_2020.csv"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pop_density</span><span class='op'>)</span></span>
+<span><span class='va'>pop_density_top10</span> <span class='op'>&lt;-</span> <span class='va'>pop_density</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_max</a></span><span class='op'>(</span><span class='va'>pop_density_2020</span>, n <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>pop_density_top10</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>pop_density_2020</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>pop_density_2020</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"10 States with Highest Population Density (2020)"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"State"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Population Density"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> </span>
+<span></span>
+<span><span class='va'>turnout_2020</span> <span class='op'>&lt;-</span> <span class='va'>turnout</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>YEAR</span> <span class='op'>==</span> <span class='fl'>2020</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>STATE</span> <span class='op'>!=</span> <span class='st'>"United States"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>VEP_TURNOUT_RATE <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"%"</span>, <span class='st'>""</span>, <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>turnout_2020</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>STATE_ABV</span>, <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Voter Turnout by State (2020)"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"State (Abbreviation)"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Voter Turnout (%)"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>polling_county</span> <span class='op'>&lt;-</span> <span class='va'>polling_places</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>county_name</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>state</span>, <span class='va'>county_name</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>polling_places <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>top_counties</span> <span class='op'>&lt;-</span> <span class='va'>polling_county</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>polling_places</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>top_counties</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/reorder.factor.html'>reorder</a></span><span class='op'>(</span><span class='va'>county_name</span>, <span class='va'>polling_places</span><span class='op'>)</span>,</span>
+<span>                         y <span class='op'>=</span> <span class='va'>polling_places</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"steelblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_flip.html'>coord_flip</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Counties with the Most Polling Places"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"County"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Number of Polling Places"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>YEAR</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2008</span>, <span class='fl'>2012</span>, <span class='fl'>2016</span>, <span class='fl'>2020</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>turnout_recent</span></span>
+<span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout_recent</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>state_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>STATE_ABV</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WY"</span>,<span class='st'>"VT"</span>,<span class='st'>"ND"</span>,<span class='st'>"MT"</span>,<span class='st'>"SD"</span>,<span class='st'>"AK"</span>,<span class='st'>"NH"</span><span class='op'>)</span>, </span>
+<span>                            <span class='st'>"Rural"</span>, <span class='st'>"Urban"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>density_turnout</span> <span class='op'>&lt;-</span> <span class='va'>pop_density</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>turnout_2020</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"state"</span> <span class='op'>=</span> <span class='st'>"STATE"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>density_turnout</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>pop_density_2020</span>, y <span class='op'>=</span> <span class='va'>VEP_TURNOUT_RATE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
@@ -1803,14 +1728,8 @@ The independent variable would be population density of a state, as states with 
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Population Density vs. Voter Turnout (2020)"</span>,</span>
 <span>       x <span class='op'>=</span> <span class='st'>"Population Density"</span>,</span>
 <span>       y <span class='op'>=</span> <span class='st'>"Voter Turnout (%)"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" alt="" width="624" /></p>
-</div>
-<p>This scatterplot displays the slight positive trend between population density and voter turnout across states in 2020. The trend suggests more densely populated states do tend to have a slightly higher turnout than less densely populated states, though there are multiple outliers that are further away from the line.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modelsummary.com'>modelsummary</a></span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modelsummary.com'>modelsummary</a></span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>turnout_recent</span> <span class='op'>&lt;-</span> <span class='va'>turnout_recent</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>state_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>STATE_ABV</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WY"</span>,<span class='st'>"VT"</span>,<span class='st'>"ND"</span>,<span class='st'>"MT"</span>,<span class='st'>"SD"</span>,<span class='st'>"AK"</span>,<span class='st'>"NH"</span><span class='op'>)</span>, <span class='st'>"Rural"</span>, <span class='st'>"Urban"</span><span class='op'>)</span><span class='op'>)</span></span>
@@ -1827,80 +1746,13 @@ The independent variable would be population density of a state, as states with 
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>1</span>, alpha <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_color_manual</a></span><span class='op'>(</span>values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Rural"</span> <span class='op'>=</span> <span class='st'>"#F8766D"</span>, <span class='st'>"Urban"</span> <span class='op'>=</span> <span class='st'>"#00BFC4"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Average Turnout"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, color <span class='op'>=</span> <span class='st'>"State Type"</span><span class='op'>)</span></span></code></pre>
-</div>
-<img src="index_files/figure-html5/Regression-1.png" alt="" width="624" />
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span> <span class='op'>~</span> <span class='va'>pop_density_2020</span>, data <span class='op'>=</span> <span class='va'>density_turnout</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='st'>"Average Turnout"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, color <span class='op'>=</span> <span class='st'>"State Type"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span> <span class='op'>~</span> <span class='va'>pop_density_2020</span>, data <span class='op'>=</span> <span class='va'>density_turnout</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://modelsummary.com/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span></span></code></pre>
 </div>
-<table style="width:42%;">
-<colgroup>
-<col style="width: 26%" />
-<col style="width: 15%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th><ol type="1">
-<li></li>
-</ol></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>(Intercept)</td>
-<td>66.299</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>(1.070)</td>
-</tr>
-<tr class="odd">
-<td>pop_density_2020</td>
-<td>0.003</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>(0.003)</td>
-</tr>
-<tr class="odd">
-<td>Num.Obs.</td>
-<td>48</td>
-</tr>
-<tr class="even">
-<td>R2</td>
-<td>0.016</td>
-</tr>
-<tr class="odd">
-<td>R2 Adj.</td>
-<td>-0.005</td>
-</tr>
-<tr class="even">
-<td>AIC</td>
-<td>310.8</td>
-</tr>
-<tr class="odd">
-<td>BIC</td>
-<td>316.4</td>
-</tr>
-<tr class="even">
-<td>Log.Lik.</td>
-<td>-152.385</td>
-</tr>
-<tr class="odd">
-<td>RMSE</td>
-<td>5.79</td>
-</tr>
-</tbody>
-</table>
 </div>
-<p>The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.<br />
-The intercept of 66.30 represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of 0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>The scatterplot displayed a slight positive correlation between population density and voter turnout, suggesting that states with higher population density trend towards higher voter turnout. However, the regression analysis showed an extremely small coefficient and a p-value of 0.385, indicating that the relationship between variables was not statistically significant. This means that the relationship between a state’s voter turnout and population density could possibly be due to chance.</p>
-<p>These results do not support my hypothesis, because they do not prove that more densely populated states have higher voter turnout than states with lower population density. Some confounders to my hypothesis were campaign activity differences throughout states, socioeconomic factors such as differing education rates, and differences in polling place accessibility among states with higher or lower population density. Another limitation was that only data from the 2020 election was utilized. I would improve this research in the future by using data from multiple election years, or running a multiple regression that controls for confounders, such as education rates and polling place accessibility.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
