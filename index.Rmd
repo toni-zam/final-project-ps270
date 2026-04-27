@@ -137,7 +137,7 @@ ggplot(top_counties, aes(x = reorder(county_name, polling_places),
 ```
 The above visualization shows the 15 counties with the most polling places. These are all counties containing or surrounding major cities, showing that polling places are more concentrated in urban areas. This shows that polling places in each state could be a confounder, since more urban and suburban counties having more polling place accessibility can motivate more people to vote. Less availability of polling places in a state will be discouraging for people who wish to vote, due to traveling distances and costs.
 
-```{r State-by-State Election Turnout for Last Four Election Cycles, echo=FALSE}
+```{r State-by-State Election Turnout for Last Four Election Cycles, include=FALSE}
 library(dplyr)
 
 turnout_recent <- turnout |>
@@ -195,9 +195,9 @@ var_labels <- c(
 modelsummary::modelsummary(
   list(model),
   coef_map = var_labels,
-  gof_map = c("nobs", "r.squared", "adj.r.squared")
+  gof_map = c("nobs", "r.squared", "adj.r.squared"),
+  output = "html"
 )
-
 ```
 The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.  
 The intercept of 66.30 represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of  0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.
