@@ -1573,32 +1573,29 @@ The independent variable would be population density of a state, as states with 
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
+<th style="text-align: left;">Term</th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">p-value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: left;">Intercept</td>
 <td style="text-align: right;">66.299</td>
 <td style="text-align: right;">1.070</td>
-<td style="text-align: right;">61.947</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">pop_density_2020</td>
+<td style="text-align: left;">Population Density (per sq. mile)</td>
 <td style="text-align: right;">0.003</td>
 <td style="text-align: right;">0.003</td>
-<td style="text-align: right;">0.877</td>
 <td style="text-align: right;">0.385</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>The above line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.<br />
+<p>The line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.<br />
 The intercept of 66.30 represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of 0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>The scatterplot displayed a slight positive correlation between population density and voter turnout, suggesting that states with higher population density trend towards higher voter turnout. However, the regression analysis showed an extremely small coefficient and a p-value of 0.385, indicating that the relationship between variables was not statistically significant. This means that the relationship between a state’s voter turnout and population density could possibly be due to chance.</p>
@@ -1731,8 +1728,17 @@ The intercept of 66.30 represents a predicted baseline voter turnout of 66% when
 <span></span>
 <span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span> <span class='op'>~</span> <span class='va'>pop_density_2020</span>, data <span class='op'>=</span> <span class='va'>density_turnout</span><span class='op'>)</span></span>
 <span><span class='va'>var_labels</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pop_density_2020"</span> <span class='op'>=</span> <span class='st'>"Population Density (per sq. mile)"</span><span class='op'>)</span></span>
+<span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span> <span class='op'>~</span> <span class='va'>pop_density_2020</span>, data <span class='op'>=</span> <span class='va'>density_turnout</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>VEP_TURNOUT_RATE</span> <span class='op'>~</span> <span class='va'>pop_density_2020</span>, data <span class='op'>=</span> <span class='va'>density_turnout</span><span class='op'>)</span></span>
+<span></span>
 <span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, <span class='va'>estimate</span>, <span class='va'>std.error</span>, <span class='va'>p.value</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>term <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
+<span>  <span class='va'>term</span> <span class='op'>==</span> <span class='st'>"pop_density_2020"</span> <span class='op'>~</span> <span class='st'>"Population Density (per sq. mile)"</span>,</span>
+<span>  <span class='va'>term</span> <span class='op'>==</span> <span class='st'>"(Intercept)"</span> <span class='op'>~</span> <span class='st'>"Intercept"</span></span>
+<span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>3</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Term"</span>, <span class='st'>"Estimate"</span>, <span class='st'>"Std. Error"</span>, <span class='st'>"p-value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
