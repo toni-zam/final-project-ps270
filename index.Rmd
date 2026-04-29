@@ -30,7 +30,6 @@ head(turnout)
 pop_density <- read_csv("state_population_density_2020.csv")
 head(pop_density)
 ```
-My dataset for education levels is from the Federal Reserve Bank of St. Louis (FRED, 2021), including the percentage of bachelor degrees by state in 2021. 
 
 I utilized a data set from the Federal Reserve Bank of St. Louis that provided the percentage of people with bachelor's degrees in 2021, to discuss the confounding variable of education levels by state (FRED, 2021). I also used a data set from the MIT Election Data and Science Lab with election turnout data from all 50 states in the last 4 elections (MIT Election Data and Science Lab, 2020). My data set with the population density of all 50 states comes from the United States Census Bureau (United States Census Bureau, 2020).
 
@@ -136,7 +135,7 @@ tidy(model) |>
 )) |>
   knitr::kable(digits = 3, col.names = c("Term", "Estimate", "Std. Error", "p-value"))
 ```
-The line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they show a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates. The regression shows an intercept of 66.30, which represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of  0.0027 means that turnout increases by 0.003 percentage points for every one-unit increase in population density. Due to the p-value of 0.385, the relationship between a state's population density and voter turnout is not statistically significant. Despite the coefficient being positive, 0.003 percentage points per unit is a very small increase, showing that the effect that population density has on voter turnout is extremely minimal.
+The line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they show a higher turnout in rural states than urban states in the last 4 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates. The regression shows an intercept of 66.30, which represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of  0.0027 means that turnout increases by 0.003 percentage points for every one-unit increase in population density. Due to the p-value of 0.385, the relationship between a state's population density and voter turnout is not statistically significant. Despite the coefficient being positive, 0.003 percentage points per unit is a very small increase, showing that the effect that population density has on voter turnout is extremely minimal.
 
 The difference in educational levels in an urban state compared to a rural state is a confounder that could affect voter turnout. Those with bachelor's degrees may have a better idea of election importance than those without, and an urban state may have more people with higher education levels than a rural state. Running a regression including the percentage of bachelor's degrees in each state helps control for this confounder.
 ```{r Attainment of Bachelors Degrees by State 2021, include=FALSE}
