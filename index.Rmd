@@ -182,6 +182,9 @@ U.S. Census Bureau. (2020). Population density by state. United States Census Bu
 
 Federal Reserve Bank of St. Louis. (2021). Share of population with a bachelor's degree or higher by state. FRED Economic Data. https://fred.stlouisfed.org
 
+### AI Disclosure
+I used Claude to troubleshoot errors that I was having issues solving, or didn't understand how to solve. I also used it to convert the Federal Reserve Bank of St. Louis dataset and the U.S Census Bureau dataset into CSV files to import.
+
 ```{r print-code, ref.label=knitr::all_labels(), echo = TRUE, eval=FALSE}
 ```
 
