@@ -191,8 +191,7 @@ ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_
     color = "State Type")
 
 ```
-The line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they show a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates.  
-```{r Regression}
+```{r Regression, echo=FALSE}
 model <- lm(VEP_TURNOUT_RATE ~ pop_density_2020, data = density_turnout)
 var_labels <- c("pop_density_2020" = "Population Density (per sq. mile)")
 tidy(model) |>
@@ -203,6 +202,7 @@ tidy(model) |>
 )) |>
   knitr::kable(digits = 3, col.names = c("Term", "Estimate", "Std. Error", "p-value"))
 ```
+The line plot shows the average voter turnouts in a given election year between rural and urban states. The results shown do not support my initial hypothesis because they show a higher turnout in rural states than urban states in the last 6 election cycles, meaning that a state being rural does not correspond with having lower voting turnout rates
 
 The regression shows an intercept of 66.30, which represents a predicted baseline voter turnout of 66% when population density is zero. The coefficient of  0.0027 shows that turnout increases by 0.0027 percentage points for every one-unit increase in population density. The p-value of 0.385 means this relationship is not statistically significant.
 
