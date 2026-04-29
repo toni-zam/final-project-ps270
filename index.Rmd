@@ -79,7 +79,6 @@ library(dplyr)
 
 turnout_recent <- turnout |>
   filter(YEAR %in% c(2008, 2012, 2016, 2020))
-turnout_recent
 ```
 
 ```{r Sort Rural/Urban States, include=FALSE} 
@@ -108,8 +107,6 @@ This scatterplot displays the slight positive trend between population density a
 library(modelsummary)
 library(broom)
 
-turnout_recent <- turnout_recent |>
-  mutate(state_type = ifelse(STATE_ABV %in% c("WY","VT","ND","MT","SD","AK","NH"), "Rural", "Urban"))
 
 turnout_recent <- turnout_recent |>
   mutate(VAP_TURNOUT_RATE = as.numeric(gsub("%", "", VAP_TURNOUT_RATE)))
@@ -131,7 +128,6 @@ ggplot(turnout_summary, aes(x = as.numeric(YEAR), y = AvgTurnout, color = state_
 ```
 ```{r Regression, echo=FALSE}
 model <- lm(VEP_TURNOUT_RATE ~ pop_density_2020, data = density_turnout)
-var_labels <- c("pop_density_2020" = "Population Density (per sq. mile)")
 tidy(model) |>
   select(term, estimate, std.error, p.value) |>
   mutate(term = case_when(
@@ -159,7 +155,6 @@ turnout_edu <- density_turnout |>
 
 model_2 <- lm(VEP_TURNOUT_RATE ~ pop_density_2020 + bach_degrees, data = turnout_edu)
 
-model_2
 ```
  
 ```{r Tidy Regression, echo=FALSE}
